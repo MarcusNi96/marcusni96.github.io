@@ -526,7 +526,7 @@ footer a:hover { text-decoration: underline; }
     <span>Prototyping</span>
     <span>Elektronikk</span>
     <span>Signalbehandling</span>
-    <span>Maskinlæring</span>
+    <span>Maskinlæring/AI</span>
     <span>FEA / Simulering</span>
   </div>
   <div class="scroll-hint">↓ Scroll ned</div>
@@ -587,7 +587,7 @@ footer a:hover { text-decoration: underline; }
         Et tilpasset kamerasystem ble utviklet for å avbilde maskinerte overflater direkte i dreiebenken, uten å flytte delen til en separat målestasjon. Kameraet ble brukt til å bygge et datasett av innvendig dreide overflater med tilhørende ruhetsmål (Ra og Rz). Modifiserte CNN-modeller ble trent på datasettet og oppnådde opp til 84% nøyaktighet. En av de lettere modellene ble overført til kameraet for estimering av overflateruhet i sanntid, montert i dreiebenken. Utført i samarbeid med Sandvik Coromant.
       </p>
       <div class="card-tags">
-        <span>Maskinlæring</span>
+        <span>Maskinlæring/AI</span>
         <span>Bildeanalyse</span>
         <span>Maskinering</span>
         <span>Python</span>
@@ -650,7 +650,7 @@ footer a:hover { text-decoration: underline; }
       <button class="gallery-btn next" onclick="galleryNav(1)">&#8594;</button>
     </div>
     <div class="gallery-controls">
-      <div class="gallery-counter" id="galleryCounter">1 / 92</div>
+      <div class="gallery-counter" id="galleryCounter">Laster...</div>
       <div class="gallery-dots" id="galleryDots"></div>
     </div>
   </div>
@@ -679,35 +679,34 @@ footer a:hover { text-decoration: underline; }
 
 <script>
 (function() {
-  // Build media array: 1 to 92 (newest first)
-  const media = [];
-  const videos = new Set([5,6,14,15,16,17,18,26,37,79]);
-  for (let i = 1; i <= 92; i++) {
-    if (videos.has(i)) {
-      media.push({src:"project-images/"+i+".mp4",type:"vid"});
-    } else {
-      media.push({src:"project-images/"+i+".jpg",type:"img"});
-    }
-  }
-
-  let current = 0;
   const display = document.getElementById('galleryDisplay');
   const counter = document.getElementById('galleryCounter');
   const dotsContainer = document.getElementById('galleryDots');
+  let media = [];
+  let current = 0;
 
-  // Build dots
-  media.forEach((m, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'gallery-dot' + (m.type === 'vid' ? ' is-video' : '');
-    dot.onclick = () => showSlide(i);
-    dotsContainer.appendChild(dot);
-  });
+  fetch('project-images/media.json')
+    .then(r => r.json())
+    .then(data => {
+      media = data;
+      counter.textContent = '1 / ' + media.length;
+
+      // Build dots
+      media.forEach((m, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'gallery-dot' + (m.type === 'vid' ? ' is-video' : '');
+        dot.onclick = () => showSlide(i);
+        dotsContainer.appendChild(dot);
+      });
+
+      showSlide(0);
+    });
 
   function showSlide(n) {
+    if (!media.length) return;
     current = ((n % media.length) + media.length) % media.length;
     const item = media[current];
 
-    // Remove old media element
     const old = display.querySelector('img, video');
     if (old) old.remove();
 
@@ -724,12 +723,10 @@ footer a:hover { text-decoration: underline; }
       el.alt = 'Bilde ' + (current + 1);
       el.loading = 'lazy';
     }
-    // Insert before buttons
     display.insertBefore(el, display.firstChild);
 
     counter.textContent = (current + 1) + ' / ' + media.length;
 
-    // Update dots
     dotsContainer.querySelectorAll('.gallery-dot').forEach((d, i) => {
       d.classList.toggle('active', i === current);
     });
@@ -737,21 +734,17 @@ footer a:hover { text-decoration: underline; }
 
   window.galleryNav = function(dir) { showSlide(current + dir); };
 
-  // Keyboard navigation
   document.addEventListener('keydown', function(e) {
     if (e.key === 'ArrowLeft') galleryNav(-1);
     if (e.key === 'ArrowRight') galleryNav(1);
   });
 
-  // Touch swipe
   let touchStartX = 0;
   display.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
   display.addEventListener('touchend', e => {
     const diff = e.changedTouches[0].screenX - touchStartX;
     if (Math.abs(diff) > 50) galleryNav(diff < 0 ? 1 : -1);
   });
-
-  showSlide(0);
 })();
 
 // Thesis figure gallery
