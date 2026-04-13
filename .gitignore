@@ -1,0 +1,14 @@
+# Source images (stored locally, sourced from Immich)
+images/
+
+# Source figures (full-res originals and captions)
+thesis-figures/fig_*
+thesis-figures/*.txt
+bachelor-figures/slide_*
+bachelor-figures/Presentation.pptx
+
+# Build artifacts and tools
+.venv/
+.claude/
+.mcp.json
+project-images/media.js

@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marcus Nicolaisen — Ingeniørportefølje</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F5F3EE;
+  --bg-card: #FFFEFA;
+  --text: #1A1A18;
+  --text-muted: #6B6860;
+  --accent: #C84B31;
+  --accent-light: #E8D5C4;
+  --border: #D6D2CA;
+  --tag-bg: #EDEAE4;
+  --tag-text: #4A4740;
+  --shadow: 0 2px 20px rgba(26,26,24,0.06);
+  --mono: 'DM Mono', monospace;
+  --serif: 'Instrument Serif', serif;
+  --sans: 'DM Sans', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent);
+  color: white;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(245,243,238,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+}
+nav .nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 56px;
+}
+nav .logo {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  text-decoration: none;
+}
+nav .logo span { color: var(--accent); }
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+nav ul a {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  text-decoration: none;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+nav ul a:hover { color: var(--accent); }
+
+/* HERO */
+.hero {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 2rem 4rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.hero-photo {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+.hero-label {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  margin-bottom: 2rem;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+.hero-desc {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  max-width: 580px;
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+}
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.hero-tags span {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--tag-text);
+  background: var(--tag-bg);
+}
+.scroll-hint {
+  margin-top: 4rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+/* SECTIONS */
+section {
+  padding: 5rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+.section-desc {
+  color: var(--text-muted);
+  max-width: 600px;
+  margin-bottom: 3rem;
+  font-size: 1rem;
+}
+
+/* ABOUT */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+.about-text p {
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+}
+.about-text p:first-child {
+  color: var(--text);
+  font-size: 1.05rem;
+}
+.about-details {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 2rem;
+}
+.about-details h3 {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+}
+.about-details h3:first-child { margin-top: 0; }
+.about-details p {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+}
+.about-details .detail-line {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--tag-bg);
+  font-size: 0.88rem;
+}
+.about-details .detail-line .label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.2rem;
+}
+.about-details .detail-line .value { color: var(--text); font-weight: 500; }
+
+/* THESIS CARDS */
+.thesis-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: stretch;
+}
+.thesis-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 2.5rem;
+  position: relative;
+  transition: box-shadow 0.3s, transform 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+.thesis-card .thesis-gallery {
+  margin-top: auto;
+}
+.thesis-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+.thesis-card .card-type {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+.thesis-card h3 {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+.thesis-card p {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  margin-bottom: 1.2rem;
+  line-height: 1.6;
+}
+.thesis-card .card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.thesis-card .card-tags span {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  padding: 0.25rem 0.6rem;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  letter-spacing: 0.03em;
+}
+
+/* THESIS FIGURE GALLERY */
+.thesis-gallery {
+  margin-top: 1.5rem;
+  max-width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.thesis-gallery .tg-display {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/10;
+  background: #1A1A18;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.thesis-gallery .tg-display img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  margin: auto;
+}
+.thesis-gallery .tg-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(245,243,238,0.9);
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 36px;
+  height: 36px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: background 0.2s;
+}
+.thesis-gallery .tg-btn:hover { background: var(--accent); color: white; }
+.thesis-gallery .tg-btn.prev { left: 8px; }
+.thesis-gallery .tg-btn.next { right: 8px; }
+.thesis-gallery .tg-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--border);
+}
+.thesis-gallery .tg-counter {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.thesis-gallery .tg-caption {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 0 1rem 0.75rem;
+  line-height: 1.4;
+}
+.thesis-pdf-link {
+  display: inline-block;
+  margin-top: 1rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent);
+}
+.thesis-pdf-link:hover {
+  opacity: 0.7;
+}
+
+/* GALLERY */
+.gallery-container {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.gallery-display {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/10;
+  background: #1A1A18;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gallery-display img,
+.gallery-display video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.gallery-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(245,243,238,0.9);
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 44px;
+  height: 44px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: background 0.2s;
+}
+.gallery-btn:hover { background: var(--accent); color: white; }
+.gallery-btn.prev { left: 12px; }
+.gallery-btn.next { right: 12px; }
+.gallery-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem 2rem;
+  border-top: 1px solid var(--border);
+}
+.gallery-counter {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  min-width: 80px;
+  text-align: center;
+}
+.gallery-dots {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 600px;
+}
+.gallery-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s;
+}
+.gallery-dot.active { background: var(--accent); }
+.gallery-dot.is-video { border-radius: 2px; }
+
+/* FOOTER */
+footer {
+  padding: 3rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+footer .footer-left {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+footer .footer-right {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+}
+footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+footer a:hover { text-decoration: underline; }
+
+/* DIVIDER */
+.divider {
+  width: 60px;
+  height: 2px;
+  background: var(--accent);
+  margin: 4rem auto;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .about-grid, .thesis-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  nav ul { gap: 1rem; }
+  nav ul a { font-size: 0.68rem; }
+  section { padding: 3rem 1.2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">MN<span>.</span></a>
+    <ul>
+      <li><a href="#om">Om</a></li>
+      <li><a href="#akademisk">Akademisk</a></li>
+      <li><a href="#prosjekter">Prosjekter</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">Ingeniørstudent · NTNU Trondheim</div>
+  <img src="web-images/profile.jpg" alt="Marcus Nicolaisen" class="hero-photo">
+  <h1>Marcus <em>Nicolaisen</em></h1>
+  <p class="hero-desc">
+    Sivilingeniør i elektronikk (MSc) og bachelor i maskinteknikk fra NTNU. Liker å bygge ting, løse problemer og forstå hvordan ting fungerer.
+  </p>
+  <div class="hero-tags">
+    <span>Mekanisk design</span>
+    <span>Prototyping</span>
+    <span>Elektronikk</span>
+    <span>Signalbehandling</span>
+    <span>Maskinlæring</span>
+    <span>FEA / Simulering</span>
+  </div>
+  <div class="scroll-hint">↓ Scroll ned</div>
+</div>
+
+<!-- ABOUT -->
+<section id="om">
+  <div class="section-label">01 — Om meg</div>
+  <div class="section-title">Kort fortalt</div>
+
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        Jeg er fra Arendal og ser etter jobb i Agder-området. Maskinteknikk, strukturanalyse og mekatronikk er det som interesserer meg mest, men jeg er fleksibel og lærevillig.
+      </p>
+      <p>
+        Jeg er praktisk anlagt og har skrudd på biler, sykler og mopeder siden jeg var liten. Den bakgrunnen tar jeg med meg uansett om jeg jobber på verksted eller foran en skjerm.
+      </p>
+    </div>
+
+    <div class="about-details">
+      <h3>Utdanning</h3>
+      <div class="detail-line">
+        <span class="label">5-årig master</span>
+        <span class="value">Elektronisk systemdesign og innovasjon, NTNU. Spesialisering: signalbehandling og kommunikasjon</span>
+      </div>
+      <div class="detail-line">
+        <span class="label">Bachelor</span>
+        <span class="value">Ingeniørfag, maskin, NTNU. Spesialisering: maskinkonstruksjon</span>
+      </div>
+
+      <h3>Erfaring</h3>
+      <div class="detail-line">
+        <span class="label">Norbit ITS</span>
+        <span class="value">Testingeniør</span>
+      </div>
+      <div class="detail-line">
+        <span class="label">Trygve Jensen AS</span>
+        <span class="value">Forskalingsnekker</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ACADEMIC -->
+<section id="akademisk">
+  <div class="section-label">02 — Akademisk arbeid</div>
+  <div class="section-title">Avhandlinger</div>
+  <p class="section-desc">To prosjekter som viser spennet mellom klassisk maskinteknikk og moderne dataanalyse.</p>
+
+  <div class="thesis-grid">
+    <div class="thesis-card">
+      <div class="card-type">Masteroppgave</div>
+      <h3>Estimering av overflateruhet på maskinerte deler ved bruk av maskinlæring</h3>
+      <p>
+        Et tilpasset kamerasystem ble utviklet for å avbilde maskinerte overflater direkte i dreiebenken, uten å flytte delen til en separat målestasjon. Kameraet ble brukt til å bygge et datasett av innvendig dreide overflater med tilhørende ruhetsmål (Ra og Rz). Modifiserte CNN-modeller ble trent på datasettet og oppnådde opp til 84% nøyaktighet. En av de lettere modellene ble overført til kameraet for estimering av overflateruhet i sanntid, montert i dreiebenken. Utført i samarbeid med Sandvik Coromant.
+      </p>
+      <div class="card-tags">
+        <span>Maskinlæring</span>
+        <span>Bildeanalyse</span>
+        <span>Maskinering</span>
+        <span>Python</span>
+        <span>Raspberry Pi</span>
+      </div>
+      <div class="thesis-gallery" id="thesisGallery">
+        <div class="tg-display" id="tgDisplay">
+          <button class="tg-btn prev" onclick="thesisNav(-1)">&#8592;</button>
+          <button class="tg-btn next" onclick="thesisNav(1)">&#8594;</button>
+        </div>
+        <div class="tg-caption" id="tgCaption"></div>
+        <div class="tg-controls">
+          <div class="tg-counter" id="tgCounter"></div>
+        </div>
+      </div>
+      <a href="masteroppgave.pdf" target="_blank" class="thesis-pdf-link">Les hele oppgaven (PDF)</a>
+    </div>
+
+    <div class="thesis-card">
+      <div class="card-type">Bacheloroppgave</div>
+      <h3>Kalibrering av viskoelastiske materialmodeller for FEA</h3>
+      <p>
+        Kalibrering av viskoelastiske materialmodeller (Prony-serier) for gummimaterialer brukt som fjærer i massedempere. Materialparametre hentes fra DMA-testing og tilpasses en generalisert Maxwell-modell. Modellen verifiseres ved å sammenligne FEA-simuleringer i Abaqus med uavhengige shakerforsøk på et dobbeltskjær-oppsett.
+      </p>
+      <div class="card-tags">
+        <span>FEA / Abaqus</span>
+        <span>Materialkalibrering</span>
+        <span>Viskoelastisitet</span>
+        <span>DMA</span>
+        <span>Prony-serier</span>
+        <span>Vibrasjon</span>
+        <span>Python</span>
+      </div>
+      <div class="thesis-gallery" id="bachelorGallery">
+        <div class="tg-display" id="bgDisplay">
+          <button class="tg-btn prev" onclick="bachelorNav(-1)">&#8592;</button>
+          <button class="tg-btn next" onclick="bachelorNav(1)">&#8594;</button>
+        </div>
+        <div class="tg-caption" id="bgCaption"></div>
+        <div class="tg-controls">
+          <div class="tg-counter" id="bgCounter"></div>
+        </div>
+      </div>
+      <p style="font-family:var(--mono); font-size:0.7rem; color:var(--text-muted); margin-top:0.75rem; letter-spacing:0.03em;">Pågående arbeid</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="prosjekter">
+  <div class="section-label">03 — Prosjekter</div>
+  <div class="section-title">Interesser og prosjekter</div>
+  <p class="section-desc">De fleste prosjektene mine er ikke dokumentert, men bildene og videoene under gir et innblikk i hva jeg driver med på fritiden.</p>
+
+  <div class="gallery-container">
+    <div class="gallery-display" id="galleryDisplay">
+      <button class="gallery-btn prev" onclick="galleryNav(-1)">&#8592;</button>
+      <button class="gallery-btn next" onclick="galleryNav(1)">&#8594;</button>
+    </div>
+    <div class="gallery-controls">
+      <div class="gallery-counter" id="galleryCounter">1 / 92</div>
+      <div class="gallery-dots" id="galleryDots"></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="kontakt">
+  <div class="section-label">04 — Kontakt</div>
+  <div class="section-title">Ta kontakt</div>
+  <p class="section-desc">
+    Har du en spennende stilling som kan passe, tips til hvor jeg burde søke, eller bare lyst til å ta en prat? Send meg en e-post.
+  </p>
+  <div style="font-family:var(--mono); font-size:0.85rem; color:var(--text-muted); line-height: 2.2;">
+    <p>E-post: <a href="mailto:nicolaisen.jobb@pm.me" style="color:var(--accent);">nicolaisen.jobb@pm.me</a></p>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">&copy; Marcus Nicolaisen</div>
+  <div class="footer-right"><a href="#">Tilbake til toppen &uarr;</a></div>
+</footer>
+
+<script>
+(function() {
+  // Build media array: 1 to 92 (newest first)
+  const media = [];
+  const videos = new Set([5,6,14,15,16,17,18,26,37,79]);
+  for (let i = 1; i <= 92; i++) {
+    if (videos.has(i)) {
+      media.push({src:"project-images/"+i+".mp4",type:"vid"});
+    } else {
+      media.push({src:"project-images/"+i+".jpg",type:"img"});
+    }
+  }
+
+  let current = 0;
+  const display = document.getElementById('galleryDisplay');
+  const counter = document.getElementById('galleryCounter');
+  const dotsContainer = document.getElementById('galleryDots');
+
+  // Build dots
+  media.forEach((m, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'gallery-dot' + (m.type === 'vid' ? ' is-video' : '');
+    dot.onclick = () => showSlide(i);
+    dotsContainer.appendChild(dot);
+  });
+
+  function showSlide(n) {
+    current = ((n % media.length) + media.length) % media.length;
+    const item = media[current];
+
+    // Remove old media element
+    const old = display.querySelector('img, video');
+    if (old) old.remove();
+
+    let el;
+    if (item.type === 'vid') {
+      el = document.createElement('video');
+      el.src = item.src;
+      el.controls = true;
+      el.playsInline = true;
+      el.preload = 'metadata';
+    } else {
+      el = document.createElement('img');
+      el.src = item.src;
+      el.alt = 'Bilde ' + (current + 1);
+      el.loading = 'lazy';
+    }
+    // Insert before buttons
+    display.insertBefore(el, display.firstChild);
+
+    counter.textContent = (current + 1) + ' / ' + media.length;
+
+    // Update dots
+    dotsContainer.querySelectorAll('.gallery-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+  }
+
+  window.galleryNav = function(dir) { showSlide(current + dir); };
+
+  // Keyboard navigation
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft') galleryNav(-1);
+    if (e.key === 'ArrowRight') galleryNav(1);
+  });
+
+  // Touch swipe
+  let touchStartX = 0;
+  display.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
+  display.addEventListener('touchend', e => {
+    const diff = e.changedTouches[0].screenX - touchStartX;
+    if (Math.abs(diff) > 50) galleryNav(diff < 0 ? 1 : -1);
+  });
+
+  showSlide(0);
+})();
+
+// Thesis figure gallery
+(function() {
+  const figures = [
+    {src:"thesis-figures/web/1.jpg",  cap:"Fig 4.1: CAD model of final prototype"},
+    {src:"thesis-figures/web/2.jpg",  cap:"Fig 4.2: Section views of camera"},
+    {src:"thesis-figures/web/3.jpg",  cap:""},
+    {src:"thesis-figures/web/4.jpg",  cap:"Fig 4.3: Light Linear"},
+    {src:"thesis-figures/web/5.jpg",  cap:""},
+    {src:"thesis-figures/web/6.jpg",  cap:""},
+    {src:"thesis-figures/web/7.jpg",  cap:"Fig 4.6: Battery, charging and boost PCB"},
+    {src:"thesis-figures/web/8.jpg",  cap:"Fig 4.7: Surface probe in custom holder"},
+    {src:"thesis-figures/web/9.jpg",  cap:""},
+    {src:"thesis-figures/web/10.jpg", cap:"Fig 4.9: Interface for image capture and metadata input"},
+    {src:"thesis-figures/web/11.jpg", cap:"Fig 5.1: Adapter and surface measurements on lathe"},
+    {src:"thesis-figures/web/12.jpg", cap:""},
+    {src:"thesis-figures/web/13.jpg", cap:"Fig 5.2: System used on a lathe"},
+    {src:"thesis-figures/web/14.jpg", cap:""},
+    {src:"thesis-figures/web/15.jpg", cap:"Fig 6.1: Predictions on the test dataset"},
+    {src:"thesis-figures/web/16.jpg", cap:"Fig 6.2: Pretrained vs non-pretrained model accuracy"},
+    {src:"thesis-figures/web/17.jpg", cap:"Fig 6.3: Average predicted Ra"},
+    {src:"thesis-figures/web/18.jpg", cap:"Fig 6.5: Distribution of predictions (0.8 vs 0.4 mm nose radius)"},
+    {src:"thesis-figures/web/19.jpg", cap:""},
+    {src:"thesis-figures/web/20.jpg", cap:""},
+  ];
+
+  let cur = 0;
+  const display = document.getElementById('tgDisplay');
+  const caption = document.getElementById('tgCaption');
+  const counter = document.getElementById('tgCounter');
+
+  function showFig(n) {
+    cur = ((n % figures.length) + figures.length) % figures.length;
+    const fig = figures[cur];
+    const old = display.querySelector('img');
+    if (old) old.remove();
+    const img = document.createElement('img');
+    img.src = fig.src;
+    img.alt = fig.cap;
+    display.insertBefore(img, display.firstChild);
+    caption.textContent = fig.cap;
+    counter.textContent = (cur + 1) + ' / ' + figures.length;
+  }
+
+  window.thesisNav = function(dir) { showFig(cur + dir); };
+
+  // Touch swipe
+  let tx = 0;
+  display.addEventListener('touchstart', e => { tx = e.changedTouches[0].screenX; });
+  display.addEventListener('touchend', e => {
+    const diff = e.changedTouches[0].screenX - tx;
+    if (Math.abs(diff) > 50) thesisNav(diff < 0 ? 1 : -1);
+  });
+
+  showFig(0);
+})();
+
+// Bachelor figure gallery
+(function() {
+  const figures = [
+    {src:"bachelor-figures/web/1.jpg",  cap:"Tuned mass damper med gummifjærer"},
+    {src:"bachelor-figures/web/2.jpg",  cap:"Elektrodynamisk shaker, dobbeltskjær-oppsett"},
+    {src:"bachelor-figures/web/3.jpg",  cap:""},
+    {src:"bachelor-figures/web/4.jpg",  cap:""},
+    {src:"bachelor-figures/web/5.gif",  cap:"FEA-simulering i Abaqus"},
+    {src:"bachelor-figures/web/6.jpg",  cap:""},
+    {src:"bachelor-figures/web/7.jpg",  cap:"Resultater, materialmodell"},
+  ];
+
+  let cur = 0;
+  const display = document.getElementById('bgDisplay');
+  const caption = document.getElementById('bgCaption');
+  const counter = document.getElementById('bgCounter');
+
+  function showFig(n) {
+    cur = ((n % figures.length) + figures.length) % figures.length;
+    const fig = figures[cur];
+    const old = display.querySelector('img');
+    if (old) old.remove();
+    const img = document.createElement('img');
+    img.src = fig.src;
+    img.alt = fig.cap;
+    display.insertBefore(img, display.firstChild);
+    caption.textContent = fig.cap;
+    counter.textContent = (cur + 1) + ' / ' + figures.length;
+  }
+
+  window.bachelorNav = function(dir) { showFig(cur + dir); };
+
+  let tx = 0;
+  display.addEventListener('touchstart', e => { tx = e.changedTouches[0].screenX; });
+  display.addEventListener('touchend', e => {
+    const diff = e.changedTouches[0].screenX - tx;
+    if (Math.abs(diff) > 50) bachelorNav(diff < 0 ? 1 : -1);
+  });
+
+  showFig(0);
+})();
+</script>
+</body>
+</html>
