@@ -11,7 +11,7 @@
   {"src":"project-images/4e96f0fe.jpg","type":"img","caption":"Trakk ledninger gjennom hele masta, og monterte ankerlanterne og vindmåler. Billigste aluminiumsprofilen fra Byggmax med pop-nagler og blindmuttere."},
   {"src":"project-images/34fc9236.mp4","type":"vid"},
   {"src":"project-images/0f2cbe86.jpg","type":"img","caption":"Lazy jacks, 3D-printa fester og billigste flagglina fra Biltema."},
-  {"src":"project-images/263f232e.mp4","type":"vid","caption":"Pypilot autopilot. 3D-printa feste til motoren og stag til rorkult."},
+  {"src":"project-images/263f232e.mp4","type":"vid","caption":"Pypilot autopilot. 3D-printa feste til aktuatoren og stag til rorkult."},
   {"src":"project-images/d1dfd20d.mp4","type":"vid","caption":"Testing av autopilot før montering. Motorkontroller og pi hat er kjøpt fra skaperen av PyPilot prosjektet."},
   {"src":"project-images/f5966eaa.mp4","type":"vid","caption":"Selve låsemekanismen er en remix fra et annet design, men var veldig fornøyd når jeg fikk til å bruke den som et avtagbart feste."},
   {"src":"project-images/c27ad60d.jpg","type":"img"},
