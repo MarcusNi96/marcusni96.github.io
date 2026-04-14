@@ -475,17 +475,6 @@ section {
   border-radius: 2px;
   pointer-events: none;
 }
-.gallery-tile .caption-badge {
-  position: absolute;
-  bottom: 8px;
-  left: 8px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 2px rgba(255,255,255,0.8);
-  pointer-events: none;
-}
 @media (max-width: 600px) {
   .gallery-grid { gap: 2px; }
 }
@@ -844,14 +833,11 @@ footer a:hover { text-decoration: underline; }
       let thumb;
       if (m.type === 'vid') {
         thumb = document.createElement('video');
-        thumb.src = m.src;
+        thumb.src = isSingle ? m.src : m.src + '#t=0.1';
         thumb.preload = 'metadata';
         thumb.playsInline = true;
-        if (isSingle) {
-          thumb.controls = true;
-        } else {
-          thumb.muted = true;
-        }
+        thumb.muted = true;
+        if (isSingle) thumb.controls = true;
       } else {
         thumb = document.createElement('img');
         thumb.src = m.src;
@@ -865,11 +851,6 @@ footer a:hover { text-decoration: underline; }
         badge.className = 'vid-badge';
         badge.textContent = '▶ VIDEO';
         tile.appendChild(badge);
-      }
-      if (!isSingle && m.caption && m.caption.trim()) {
-        const dot = document.createElement('span');
-        dot.className = 'caption-badge';
-        tile.appendChild(dot);
       }
       if (isSingle) {
         const cap = document.createElement('div');
