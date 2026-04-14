@@ -375,40 +375,183 @@ section {
   opacity: 0.7;
 }
 
-/* GALLERY */
-.gallery-container {
-  position: relative;
-  max-width: 900px;
-  margin: 0 auto;
+/* GALLERY — view toggle */
+.gallery-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0;
+  margin-bottom: 0.75rem;
+}
+.gallery-toolbar button {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.8rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  overflow: hidden;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
 }
-.gallery-display {
+.gallery-toolbar button + button { border-left: none; }
+.gallery-toolbar button.active {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+
+/* GALLERY — Instagram-style grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+.gallery-tile {
   position: relative;
-  width: 100%;
-  aspect-ratio: 16/10;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
   background: #1A1A18;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  display: block;
+  width: 100%;
+}
+.gallery-tile > img,
+.gallery-tile > video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+.gallery-tile:hover > img,
+.gallery-tile:hover > video { transform: scale(1.03); }
+
+.gallery-grid.single {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.gallery-grid.single .gallery-tile {
+  aspect-ratio: auto;
+  cursor: default;
+  background: transparent;
+  overflow: visible;
+}
+.gallery-grid.single .gallery-tile > img,
+.gallery-grid.single .gallery-tile > video {
+  aspect-ratio: 1 / 1;
+  height: auto;
+  object-fit: cover;
+  background: #1A1A18;
+}
+.gallery-grid.single .gallery-tile > video { object-fit: contain; }
+.gallery-grid.single .gallery-tile:hover > img,
+.gallery-grid.single .gallery-tile:hover > video { transform: none; }
+.gallery-grid.single .tile-caption {
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.5;
+  padding: 0.75rem 0.25rem 0;
+  text-align: left;
+  font-family: var(--sans);
+}
+.gallery-grid.single .tile-caption:empty { display: none; }
+.gallery-grid:not(.single) .tile-caption { display: none; }
+.gallery-tile .vid-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0,0,0,0.55);
+  color: white;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  padding: 2px 6px;
+  border-radius: 2px;
+  pointer-events: none;
+}
+.gallery-tile .caption-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.8);
+  pointer-events: none;
+}
+@media (max-width: 600px) {
+  .gallery-grid { gap: 2px; }
+}
+
+/* LIGHTBOX */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(20,20,18,0.92);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 2rem;
+}
+.lightbox.open { display: flex; }
+.lightbox-inner {
+  position: relative;
+  max-width: min(1000px, 95vw);
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+.lightbox-media {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 0;
 }
-.gallery-display img,
-.gallery-display video {
+.lightbox-media img,
+.lightbox-media video {
   max-width: 100%;
-  max-height: 100%;
+  max-height: 78vh;
   object-fit: contain;
+  display: block;
 }
-.gallery-btn {
+.lightbox-caption {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  color: #F5F3EE;
+  line-height: 1.5;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+  min-height: 1.2em;
+}
+.lightbox-counter {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: rgba(245,243,238,0.6);
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+.lightbox-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(245,243,238,0.9);
-  border: 1px solid var(--border);
-  color: var(--text);
+  background: rgba(245,243,238,0.15);
+  border: 1px solid rgba(245,243,238,0.3);
+  color: #F5F3EE;
   width: 44px;
   height: 44px;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -416,43 +559,24 @@ section {
   z-index: 2;
   transition: background 0.2s;
 }
-.gallery-btn:hover { background: var(--accent); color: white; }
-.gallery-btn.prev { left: 12px; }
-.gallery-btn.next { right: 12px; }
-.gallery-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
-  padding: 1rem 2rem;
-  border-top: 1px solid var(--border);
-}
-.gallery-counter {
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  min-width: 80px;
-  text-align: center;
-}
-.gallery-dots {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-  justify-content: center;
-  max-width: 600px;
-}
-.gallery-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--border);
+.lightbox-btn:hover { background: var(--accent); border-color: var(--accent); }
+.lightbox-btn.prev { left: -60px; }
+.lightbox-btn.next { right: -60px; }
+.lightbox-close {
+  position: absolute;
+  top: -44px;
+  right: 0;
+  background: none;
   border: none;
+  color: #F5F3EE;
+  font-size: 1.6rem;
   cursor: pointer;
-  padding: 0;
-  transition: background 0.2s;
+  padding: 0.25rem 0.5rem;
 }
-.gallery-dot.active { background: var(--accent); }
-.gallery-dot.is-video { border-radius: 2px; }
+@media (max-width: 900px) {
+  .lightbox-btn.prev { left: 4px; }
+  .lightbox-btn.next { right: 4px; }
+}
 
 /* FOOTER */
 footer {
@@ -644,17 +768,24 @@ footer a:hover { text-decoration: underline; }
   <div class="section-title">Interesser og prosjekter</div>
   <p class="section-desc">De fleste prosjektene mine er ikke dokumentert, men bildene og videoene under gir et innblikk i hva jeg driver med på fritiden.</p>
 
-  <div class="gallery-container">
-    <div class="gallery-display" id="galleryDisplay">
-      <button class="gallery-btn prev" onclick="galleryNav(-1)">&#8592;</button>
-      <button class="gallery-btn next" onclick="galleryNav(1)">&#8594;</button>
-    </div>
-    <div class="gallery-controls">
-      <div class="gallery-counter" id="galleryCounter">Laster...</div>
-      <div class="gallery-dots" id="galleryDots"></div>
-    </div>
+  <div class="gallery-toolbar" role="tablist" aria-label="Visning">
+    <button type="button" id="viewGrid" class="active" aria-pressed="true">▦ Rutenett</button>
+    <button type="button" id="viewSingle" aria-pressed="false">▤ Ett og ett</button>
   </div>
+  <div class="gallery-grid" id="galleryGrid"></div>
 </section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Lukk">&times;</button>
+    <button class="lightbox-btn prev" onclick="galleryNav(-1)" aria-label="Forrige">&#8592;</button>
+    <button class="lightbox-btn next" onclick="galleryNav(1)" aria-label="Neste">&#8594;</button>
+    <div class="lightbox-media" id="lightboxMedia"></div>
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+    <div class="lightbox-counter" id="lightboxCounter"></div>
+  </div>
+</div>
 
 <div class="divider"></div>
 
@@ -679,37 +810,104 @@ footer a:hover { text-decoration: underline; }
 
 <script>
 (function() {
-  const display = document.getElementById('galleryDisplay');
-  const counter = document.getElementById('galleryCounter');
-  const dotsContainer = document.getElementById('galleryDots');
+  const grid = document.getElementById('galleryGrid');
+  const lightbox = document.getElementById('lightbox');
+  const lbMedia = document.getElementById('lightboxMedia');
+  const lbCaption = document.getElementById('lightboxCaption');
+  const lbCounter = document.getElementById('lightboxCounter');
+  const lbClose = document.getElementById('lightboxClose');
   let media = [];
   let current = 0;
+
+  const viewGridBtn = document.getElementById('viewGrid');
+  const viewSingleBtn = document.getElementById('viewSingle');
 
   fetch('project-images/media.json')
     .then(r => r.json())
     .then(data => {
       media = data;
-      counter.textContent = '1 / ' + media.length;
-
-      // Build dots
-      media.forEach((m, i) => {
-        const dot = document.createElement('button');
-        dot.className = 'gallery-dot' + (m.type === 'vid' ? ' is-video' : '');
-        dot.onclick = () => showSlide(i);
-        dotsContainer.appendChild(dot);
-      });
-
-      showSlide(0);
+      render();
     });
 
-  function showSlide(n) {
-    if (!media.length) return;
-    current = ((n % media.length) + media.length) % media.length;
+  function render() {
+    const isSingle = grid.classList.contains('single');
+    grid.innerHTML = '';
+    media.forEach((m, i) => {
+      const tile = document.createElement(isSingle ? 'div' : 'button');
+      tile.className = 'gallery-tile';
+      if (!isSingle) {
+        tile.type = 'button';
+        tile.setAttribute('aria-label', m.caption || ('Media ' + (i + 1)));
+        tile.onclick = () => openLightbox(i);
+      }
+
+      let thumb;
+      if (m.type === 'vid') {
+        thumb = document.createElement('video');
+        thumb.src = m.src;
+        thumb.preload = 'metadata';
+        thumb.playsInline = true;
+        if (isSingle) {
+          thumb.controls = true;
+        } else {
+          thumb.muted = true;
+        }
+      } else {
+        thumb = document.createElement('img');
+        thumb.src = m.src;
+        thumb.alt = m.caption || ('Bilde ' + (i + 1));
+        thumb.loading = 'lazy';
+      }
+      tile.appendChild(thumb);
+
+      if (!isSingle && m.type === 'vid') {
+        const badge = document.createElement('span');
+        badge.className = 'vid-badge';
+        badge.textContent = '▶ VIDEO';
+        tile.appendChild(badge);
+      }
+      if (!isSingle && m.caption && m.caption.trim()) {
+        const dot = document.createElement('span');
+        dot.className = 'caption-badge';
+        tile.appendChild(dot);
+      }
+      if (isSingle) {
+        const cap = document.createElement('div');
+        cap.className = 'tile-caption';
+        cap.textContent = m.caption || '';
+        tile.appendChild(cap);
+      }
+      grid.appendChild(tile);
+    });
+  }
+
+  function setView(single) {
+    grid.classList.toggle('single', single);
+    viewGridBtn.classList.toggle('active', !single);
+    viewSingleBtn.classList.toggle('active', single);
+    viewGridBtn.setAttribute('aria-pressed', String(!single));
+    viewSingleBtn.setAttribute('aria-pressed', String(single));
+    if (media.length) render();
+  }
+  viewGridBtn.onclick = () => setView(false);
+  viewSingleBtn.onclick = () => setView(true);
+
+  function openLightbox(i) {
+    current = i;
+    renderLightbox();
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    lbMedia.innerHTML = '';
+  }
+  function renderLightbox() {
     const item = media[current];
-
-    const old = display.querySelector('img, video');
-    if (old) old.remove();
-
+    lbMedia.innerHTML = '';
     let el;
     if (item.type === 'vid') {
       el = document.createElement('video');
@@ -717,32 +915,38 @@ footer a:hover { text-decoration: underline; }
       el.controls = true;
       el.playsInline = true;
       el.preload = 'metadata';
+      el.autoplay = true;
     } else {
       el = document.createElement('img');
       el.src = item.src;
-      el.alt = 'Bilde ' + (current + 1);
-      el.loading = 'lazy';
+      el.alt = item.caption || '';
     }
-    display.insertBefore(el, display.firstChild);
-
-    counter.textContent = (current + 1) + ' / ' + media.length;
-
-    dotsContainer.querySelectorAll('.gallery-dot').forEach((d, i) => {
-      d.classList.toggle('active', i === current);
-    });
+    lbMedia.appendChild(el);
+    lbCaption.textContent = item.caption || '';
+    lbCounter.textContent = (current + 1) + ' / ' + media.length;
   }
 
-  window.galleryNav = function(dir) { showSlide(current + dir); };
+  window.galleryNav = function(dir) {
+    if (!media.length) return;
+    current = ((current + dir) % media.length + media.length) % media.length;
+    renderLightbox();
+  };
 
-  document.addEventListener('keydown', function(e) {
+  lbClose.onclick = closeLightbox;
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
     if (e.key === 'ArrowLeft') galleryNav(-1);
-    if (e.key === 'ArrowRight') galleryNav(1);
+    else if (e.key === 'ArrowRight') galleryNav(1);
+    else if (e.key === 'Escape') closeLightbox();
   });
 
-  let touchStartX = 0;
-  display.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
-  display.addEventListener('touchend', e => {
-    const diff = e.changedTouches[0].screenX - touchStartX;
+  let tx = 0;
+  lbMedia.addEventListener('touchstart', e => { tx = e.changedTouches[0].screenX; });
+  lbMedia.addEventListener('touchend', e => {
+    const diff = e.changedTouches[0].screenX - tx;
     if (Math.abs(diff) > 50) galleryNav(diff < 0 ? 1 : -1);
   });
 })();

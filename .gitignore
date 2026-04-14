@@ -12,3 +12,7 @@ bachelor-figures/Presentation.pptx
 .claude/
 .mcp.json
 project-images/media.js
+
+# Local-only annotation tool
+annotate.html
+annotations.json
